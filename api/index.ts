@@ -1,8 +1,10 @@
 import express, {Express, Request, Response} from 'express'
+import cors from 'cors'
 import dotenv from 'dotenv'
 import mongoose from 'mongoose'
 
 const app: Express = express()
+app.use(cors())
 dotenv.config()
 const port: number = parseInt(process.env.DCMERN_API_PORT || '3001')
 
