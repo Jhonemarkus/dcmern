@@ -1,0 +1,46 @@
+version: "3"
+services:
+  
+  ui:
+    build:
+      context: ./ui
+      dockerfile: Dockerfile.dev
+    ports:
+      - 3000:3000
+    container_name: dcmern-ui
+    networks:
+      - dcmern
+    volumes:
+      - ./ui:/app
+    depends_on:
+      - api
+    stdin_open: true
+    tty: true
+  
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile.dev
+    ports:
+      - 3001:3001
+    container_name: dcmern-api
+    networks:
+      - dcmern
+    volumes:
+      - ./api:/app
+    depends_on:
+      - db
+
+  db:
+    image: mongo
+    restart: always
+    container_name: dcmern-db
+    networks:
+      - dcmern
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+
+networks:
+  dcmern:
+    driver: bridge
